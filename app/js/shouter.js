@@ -1,0 +1,1 @@
+var shouter = new ko.subscribable();

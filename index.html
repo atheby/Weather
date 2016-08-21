@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>Weather</title>
+		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" type="text/css" />
+		<link rel="stylesheet" href="app/res/css/style.css" type="text/css" />
+		<script type="application/javascript" src="lib/jquery-2.2.4.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="navbar navbar-default navbar-static-top" role="navigation">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="index.html"><span class="glyphicon glyphicon-cloud"></span> Weather</a>
+				</div>
+			</div>
+			<div class="main">
+				<div id="info-panel" class="alert alert-warning" role="alert" data-bind="with: infoVM"><span data-bind="text: message"></span></div>
+				<div class="input-group searchbox" data-bind="with: searchVM">
+					<form class="form-inline" data-bind="submit:searchCity">
+						<div class="form-group">
+							<div class="input-group">
+								<input type="text" class="form-control search-field" data-bind="value: cityName, valueUpdate: 'afterkeydown'" placeholder="Enter city name" />
+							</div>
+							<button type="submit" class="btn btn-success" data-bind="enable: cityName().length > 0"><span class="glyphicon glyphicon-search"></span></button>
+						</div>
+					</form>
+    			</div>
+				<div class="panel panel-default weather-panel" data-bind="with: weatherVM">
+					<div class="panel-heading cityName" data-bind="with: weather()[0]">
+						<span class="panel-title" data-bind="text: city"></span>
+						<span>, </span>
+						<span class="panel-title" data-bind="text: country"></span>
+						<img class="flag" data-bind="attr: { src: flag, height: '25px'}" />
+					</div>
+					<div class="panel-body main-flex-container">
+						<div class="current-panel current-flex-container">
+							<div data-bind="with: weather()[0]">
+								<table class="current-table">
+									<tr>
+										<td class="icon-table-cell" rowspan="3">
+											<img class="current-icon" data-bind="attr: { src: icon, height: '120px'}" />
+										</td>
+										<td class="temp-table-cell" rowspan="3">
+											<span class="current-temp" data-bind="html: temp"></span>
+										</td>
+										<td>Wind</td>
+										<td><span data-bind="text: wind"></span></td>
+									</tr>
+									<tr>
+										<td>Pressure</td>
+										<td><span data-bind="text: pressure"></span></td>
+									</tr>
+									<tr>
+										<td>Humidity</td>
+										<td><span data-bind="text: humidity"></span></td>
+									</tr>
+								</table>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<span class="panel-title">Search history</span>
+								</div>
+								<div class="panel-body">
+									<select class="form-control history-select" size="5" data-bind="options: history, selectedOptions:historySelected, 
+													optionsText: function(item) {return item[0].city}, click: showFromHistory"></select>
+								</div>
+							</div>
+						</div>
+						<div class="forecast-panel" data-bind="foreach: weather">
+							<div data-bind="ifnot: current">
+								<div class="forecast-day">
+									<img class="forecast-icon" data-bind="attr: { src: icon, height: '80px'}" />
+									<span class="forecast-temp" data-bind="html: temp"></span>
+									<span class="forecast-dayName" data-bind="text: day"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(document).ready(function() {
+				$(".searchbox").animate({"opacity": 1}, 1000);
+				$(".search-field").focus();
+			});
+		</script>
+		<script type="application/javascript" src="lib/knockout-3.4.0.js"></script>
+		<script type="application/javascript" src="app/js/shouter.js"></script>
+		<script type="application/javascript" src="app/js/settings.js"></script>
+		<script type="application/javascript" src="app/js/model/Weather.js"></script>
+		<script type="application/javascript" src="app/js/viewModel/infoVM.js"></script>
+		<script type="application/javascript" src="app/js/viewModel/searchVM.js"></script>
+		<script type="application/javascript" src="app/js/viewModel/weatherVM.js"></script>
+		<script type="application/javascript" src="app/js/viewModel/masterVM.js"></script>
+	</body>
+</html>
